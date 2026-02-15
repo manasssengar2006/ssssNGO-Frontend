@@ -1,17 +1,25 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { motion } from "framer-motion";
+import Loader from "../components/Loader";
 
 const AdminRequests = () => {
   const [requests, setRequests] = useState([]);
   const [selected, setSelected] = useState(null);
 
+  const [pageLoading, setPageLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
+
+  // FETCH REQUESTS
   const fetchRequests = async () => {
     try {
+      setPageLoading(true);
       const res = await API.get("/admin/requests");
       setRequests(res.data);
     } catch (err) {
       console.log("Failed to load requests");
+    } finally {
+      setPageLoading(false);
     }
   };
 
@@ -19,22 +27,35 @@ const AdminRequests = () => {
     fetchRequests();
   }, []);
 
+  // APPROVE
   const approve = async (id) => {
-    await API.post(`/admin/approve/${id}`);
-    fetchRequests();
-    setSelected(null);
+    try {
+      setActionLoading(true);
+      await API.post(`/admin/approve/${id}`);
+      await fetchRequests();
+      setSelected(null);
+    } finally {
+      setActionLoading(false);
+    }
   };
 
+  // REJECT
   const reject = async (id) => {
-    await API.post(`/admin/reject/${id}`);
-    fetchRequests();
-    setSelected(null);
+    try {
+      setActionLoading(true);
+      await API.post(`/admin/reject/${id}`);
+      await fetchRequests();
+      setSelected(null);
+    } finally {
+      setActionLoading(false);
+    }
   };
 
   const FileLink = ({ file, label }) => (
     <a
       href={`http://localhost:5000/uploads/docs/${file}`}
       target="_blank"
+      rel="noreferrer"
       className="text-blue-600 underline text-sm"
     >
       View {label}
@@ -43,9 +64,17 @@ const AdminRequests = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
+      {/* GLOBAL LOADER */}
+      {(pageLoading || actionLoading) && <Loader />}
+
       <h1 className="text-3xl font-bold text-[#0C2C55] mb-6">
         Membership Applications
       </h1>
+
+      {/* EMPTY STATE */}
+      {!pageLoading && requests.length === 0 && (
+        <p className="text-gray-500">No applications yet.</p>
+      )}
 
       {/* LIST VIEW */}
       <div className="grid gap-4">
@@ -77,7 +106,7 @@ const AdminRequests = () => {
 
       {/* DETAIL MODAL */}
       {selected && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-6">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-6 z-40">
           <motion.div
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
@@ -118,18 +147,26 @@ const AdminRequests = () => {
             <div className="flex gap-3 mt-6">
               {selected.status !== "approved" && (
                 <button
+                  disabled={actionLoading}
                   onClick={() => approve(selected._id)}
-                  className="bg-green-600 text-white px-4 py-2 rounded"
+                  className="bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2"
                 >
+                  {actionLoading && (
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  )}
                   Approve & Generate ID
                 </button>
               )}
 
               {selected.status !== "rejected" && (
                 <button
+                  disabled={actionLoading}
                   onClick={() => reject(selected._id)}
-                  className="bg-red-600 text-white px-4 py-2 rounded"
+                  className="bg-red-600 text-white px-4 py-2 rounded flex items-center gap-2"
                 >
+                  {actionLoading && (
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  )}
                   Reject
                 </button>
               )}

@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import API from "../services/api";
+import Loader from "../components/Loader";
 
 const JoinNgo = () => {
   const [form, setForm] = useState({
@@ -7,6 +9,7 @@ const JoinNgo = () => {
     email: "",
     phone: "",
   });
+
   const [aadhaar, setAadhaar] = useState(null);
   const [pan, setPan] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,7 +21,7 @@ const JoinNgo = () => {
     e.preventDefault();
 
     if (!aadhaar || !pan) {
-      alert("Upload Aadhaar & PAN");
+      alert("Please upload Aadhaar & PAN");
       return;
     }
 
@@ -31,10 +34,20 @@ const JoinNgo = () => {
 
     try {
       setLoading(true);
-      await API.post("/membership/request", data);
-      alert("Request submitted. Admin will verify.");
-    } catch {
-      alert("Submission failed");
+
+      await API.post("/membership/request", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert("Request submitted successfully ✅");
+      setForm({ name: "", email: "", phone: "" });
+      setAadhaar(null);
+      setPan(null);
+    } catch (err) {
+      console.error(err);
+      alert("Submission failed ❌");
     } finally {
       setLoading(false);
     }
@@ -42,58 +55,87 @@ const JoinNgo = () => {
 
   return (
     <div className="max-w-xl mx-auto py-12 px-6">
-      <h1 className="text-3xl font-bold text-[#0C2C55] mb-6 text-center">
-        Join NGO Membership
-      </h1>
+      {/* Loader Overlay */}
+      {loading && <Loader />}
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow p-6 rounded space-y-4"
+      <motion.h1
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-3xl font-bold text-[#0C2C55] mb-6 text-center"
       >
+        Join NGO Membership
+      </motion.h1>
+
+      <motion.form
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        onSubmit={handleSubmit}
+        className="bg-white shadow-lg p-6 rounded-xl space-y-4"
+      >
+        {/* Name */}
         <input
           name="name"
+          value={form.name}
           placeholder="Full Name"
           onChange={handleChange}
           required
-          className="w-full border p-2 rounded"
+          className="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#296374]"
         />
 
+        {/* Email */}
         <input
           name="email"
           type="email"
+          value={form.email}
           placeholder="Email"
           onChange={handleChange}
           required
-          className="w-full border p-2 rounded"
+          className="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#296374]"
         />
 
+        {/* Phone */}
         <input
           name="phone"
+          value={form.phone}
           placeholder="Phone"
           onChange={handleChange}
           required
-          className="w-full border p-2 rounded"
+          className="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#296374]"
         />
 
-        <input
-          type="file"
-          onChange={(e) => setAadhaar(e.target.files[0])}
-          required
-        />
+        {/* Aadhaar Upload */}
+        <div>
+          <label className="text-sm text-gray-600">Upload Aadhaar</label>
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            onChange={(e) => setAadhaar(e.target.files[0])}
+            required
+            className="w-full mt-1"
+          />
+        </div>
 
-        <input
-          type="file"
-          onChange={(e) => setPan(e.target.files[0])}
-          required
-        />
+        {/* PAN Upload */}
+        <div>
+          <label className="text-sm text-gray-600">Upload PAN</label>
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            onChange={(e) => setPan(e.target.files[0])}
+            required
+            className="w-full mt-1"
+          />
+        </div>
 
+        {/* Submit Button */}
         <button
           disabled={loading}
-          className="w-full bg-[#296374] text-white py-2 rounded"
+          className="w-full bg-[#296374] hover:bg-[#1f4e5d] transition text-white py-3 rounded-lg font-semibold"
         >
           {loading ? "Submitting..." : "Submit Request"}
         </button>
-      </form>
+      </motion.form>
     </div>
   );
 };
