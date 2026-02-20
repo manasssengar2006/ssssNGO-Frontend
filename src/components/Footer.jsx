@@ -25,7 +25,7 @@ const Footer = () => {
           <ul className="space-y-1 text-sm text-gray-200">
             <li>Home</li>
             <li>Posts</li>
-            <li>Join NGO</li>
+            <li>Join</li>
             <li>Contact</li>
           </ul>
         </div>
@@ -35,7 +35,7 @@ const Footer = () => {
           <h3 className="font-semibold mb-3">Contact</h3>
           <div className="space-y-2 text-sm text-gray-200">
             <p className="flex items-center gap-2">
-              <Phone size={16} /> +91 XXXXX XXXXX
+              <Phone size={16} /> +91 9717420311
             </p>
             <p className="flex items-center gap-2">
               <Mail size={16} /> svabhimanngo@gmail.com

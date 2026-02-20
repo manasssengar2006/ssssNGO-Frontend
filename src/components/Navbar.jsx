@@ -68,14 +68,15 @@ const Navbar = () => {
         {/* DESKTOP MENU */}
         <div className="hidden md:flex items-center gap-6">
           <NavLink to="/">Home</NavLink>
+
           <NavLink to="/Posts">
             <span className="flex items-center gap-1">
               <Image size={16} /> Posts
             </span>
           </NavLink>
+
           <NavLink to="/about">About</NavLink>
           <NavLink to="/sangathan">संगठन</NavLink>
-
           <NavLink to="/contact">Contact</NavLink>
 
           {!user && (
@@ -155,6 +156,7 @@ const Navbar = () => {
               <NavLink to="/">Home</NavLink>
               <NavLink to="/Posts">Posts</NavLink>
               <NavLink to="/about">About</NavLink>
+              <NavLink to="/sangathan">संगठन</NavLink> {/* ✅ FIXED */}
               <NavLink to="/contact">Contact</NavLink>
 
               {!user && (
