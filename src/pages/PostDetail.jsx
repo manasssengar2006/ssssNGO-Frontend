@@ -1,65 +1,109 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import ImageSlider from "../components/ImageSlider";
 import API from "../services/api";
 
 const PostDetail = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [index, setIndex] = useState(0);
+  const [commentText, setCommentText] = useState("");
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const fetchPost = async () => {
+    const res = await API.get(`/posts/${id}`);
+    setPost(res.data);
+  };
 
   useEffect(() => {
-    API.get(`/posts/${id}`).then((res) => setPost(res.data));
+    fetchPost();
   }, [id]);
 
-  if (!post) return <p>Loading...</p>;
+  if (!post) return <p className="text-center mt-10">Loading...</p>;
+
+  const likedByMe =
+    user && post.likes?.includes(user._id);
+
+  const handleLike = async () => {
+    if (!user) return alert("Login required");
+
+    const res = await API.post(`/posts/${id}/like`);
+    setPost((p) => ({ ...p, likes: res.data }));
+  };
+
+  const handleComment = async () => {
+    if (!user || !commentText.trim()) return;
+
+    const res = await API.post(`/posts/${id}/comment`, {
+      text: commentText,
+      userName: user.name,
+    });
+
+    setPost((p) => ({ ...p, comments: res.data }));
+    setCommentText("");
+  };
 
   const images = post.images || [];
 
-  const next = () => setIndex((i) => (i + 1) % images.length);
-  const prev = () =>
-    setIndex((i) => (i - 1 + images.length) % images.length);
-
   return (
-    <div className="max-w-2xl mx-auto py-10">
-      {/* BIG CAROUSEL */}
-      <div className="relative">
-        <img
-          src={images[index]}
-          className="w-full rounded-xl"
-        />
+    <div className="max-w-4xl mx-auto py-10 px-4">
+      {/* SLIDER */}
+      <ImageSlider images={images} />
 
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={prev}
-              className="absolute left-3 top-1/2 bg-black/40 text-white px-3 rounded"
-            >
-              ‹
-            </button>
-            <button
-              onClick={next}
-              className="absolute right-3 top-1/2 bg-black/40 text-white px-3 rounded"
-            >
-              ›
-            </button>
-          </>
-        )}
+      {/* ACTION BAR */}
+      <div className="flex justify-between items-center mt-4">
+        <div className="flex gap-4 text-lg">
+          <button
+            onClick={handleLike}
+            className={likedByMe ? "text-red-500" : ""}
+          >
+            ❤️ {post.likes.length}
+          </button>
+
+          <span>💬 {post.comments.length}</span>
+        </div>
+
+        <span className="text-gray-400 text-sm">
+          {new Date(post.createdAt).toLocaleDateString()}
+        </span>
       </div>
 
-      {/* Dots */}
-      <div className="flex justify-center gap-1 mt-2">
-        {images.map((_, i) => (
+      {/* CAPTION */}
+      <p className="mt-4 text-lg leading-relaxed">
+        {post.caption}
+      </p>
+
+      {/* COMMENTS */}
+      <div className="space-y-3 mt-6">
+        {post.comments.map((c, i) => (
           <div
             key={i}
-            className={`w-2 h-2 rounded-full ${
-              i === index ? "bg-black" : "bg-gray-300"
-            }`}
-          />
+            className="bg-white shadow rounded-lg p-3"
+          >
+            <p className="font-semibold text-sm">
+              {c.userName}
+            </p>
+            <p className="text-gray-600">{c.text}</p>
+          </div>
         ))}
       </div>
 
-      {/* Caption */}
-      <p className="mt-4 text-lg">{post.caption}</p>
+      {/* COMMENT INPUT */}
+      <div className="flex gap-2 mt-6">
+        <input
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          placeholder="Write a comment..."
+          className="flex-1 border rounded-full px-4 py-2 focus:ring-2 focus:ring-blue-400"
+        />
+
+        <button
+          onClick={handleComment}
+          className="bg-blue-500 text-white px-5 rounded-full"
+        >
+          Post
+        </button>
+      </div>
     </div>
   );
 };
