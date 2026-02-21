@@ -1,82 +1,55 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import API from "../services/api";
 
-const PostCard = ({ post, refreshPosts }) => {
+const PostCard = ({ post }) => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
-  const [liking, setLiking] = useState(false);
+  const [index, setIndex] = useState(0);
 
-  // 🌐 Base URL (auto works local + render)
-  const BASE =
-    import.meta.env.VITE_API_URL?.replace("/api", "") ||
-    "http://localhost:5000";
+  const images = post.images || [];
 
-  // ❤️ Check liked
-  const likedByMe = user && (post.likes || []).includes(user._id);
-
-  // ❤️ Like handler
-  const handleLike = async () => {
-    if (!user || liking) return;
-
-    try {
-      setLiking(true);
-      await API.post(`/posts/${post._id}/like`);
-      refreshPosts?.();
-    } catch (err) {
-      console.error("Like error:", err);
-    } finally {
-      setLiking(false);
-    }
-  };
-
-  // 🖼️ Image resolver (Cloudinary + disk fallback)
-  const imageUrl =
-    post.images?.[0] || // Cloudinary or multi-image
-    (post.image ? `${BASE}/uploads/${post.image}` : null); // old disk
+  const next = () => setIndex((i) => (i + 1) % images.length);
+  const prev = () =>
+    setIndex((i) => (i - 1 + images.length) % images.length);
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      className="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden"
-    >
-      {/* IMAGE */}
-      {imageUrl && (
+    <div className="bg-white rounded-xl shadow overflow-hidden">
+      {/* IMAGE SLIDER */}
+      <div className="relative">
         <img
+          src={images[index]}
+          className="w-full h-64 object-cover cursor-pointer"
           onClick={() => navigate(`/posts/${post._id}`)}
-          src={imageUrl}
-          alt="post"
-          className="w-full h-56 object-cover cursor-pointer"
         />
-      )}
 
-      <div className="p-4">
-        {/* CAPTION */}
-        <p className="text-[#0C2C55] mb-3 break-words line-clamp-3">
-          {post.caption}
-        </p>
+        {/* Arrows */}
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={prev}
+              className="absolute left-2 top-1/2 bg-black/40 text-white px-2 rounded"
+            >
+              ‹
+            </button>
+            <button
+              onClick={next}
+              className="absolute right-2 top-1/2 bg-black/40 text-white px-2 rounded"
+            >
+              ›
+            </button>
+          </>
+        )}
+      </div>
 
-        {/* ACTIONS */}
-        <div className="flex items-center gap-6 text-sm text-[#296374]">
-          {/* LIKE */}
-          <motion.button
-            whileTap={{ scale: 1.3 }}
-            onClick={handleLike}
-            disabled={!user || liking}
-            className={`flex items-center gap-1 transition ${
-              likedByMe ? "text-red-500" : ""
-            } ${!user ? "opacity-50 cursor-not-allowed" : ""}`}
-          >
-            ❤️ {post.likes?.length || 0}
-            {likedByMe && <span className="text-xs">(You)</span>}
-          </motion.button>
+      {/* Caption */}
+      <div className="p-3">
+        <p className="line-clamp-2">{post.caption}</p>
 
-          {/* COMMENTS */}
-          <span>💬 {post.comments?.length || 0}</span>
+        <div className="flex gap-4 text-sm text-gray-500 mt-2">
+          ❤️ {post.likes?.length || 0}
+          💬 {post.comments?.length || 0}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
