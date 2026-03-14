@@ -33,7 +33,7 @@ const Contact = () => {
               Phone
             </h3>
             <p className="text-[#296374]">
-              +91 XXXXXXXXXX
+              +91 9717420311
             </p>
           </div>
 
@@ -42,7 +42,7 @@ const Contact = () => {
               Email
             </h3>
             <p className="text-[#296374]">
-              svabhiman.ngo@gmail.com
+              Swabhimansanskritisamajothan@gmail.com
             </p>
           </div>
         </motion.div>

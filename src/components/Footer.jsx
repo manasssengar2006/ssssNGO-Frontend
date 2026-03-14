@@ -38,7 +38,7 @@ const Footer = () => {
               <Phone size={16} /> +91 9717420311
             </p>
             <p className="flex items-center gap-2">
-              <Mail size={16} /> svabhimanngo@gmail.com
+              <Mail size={16} /> Swabhimansanskritisamajothan@gmail.com
             </p>
             <p className="flex items-center gap-2">
               <MapPin size={16} /> Delhi, India

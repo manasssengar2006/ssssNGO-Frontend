@@ -53,17 +53,28 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         {/* LOGO */}
-        <motion.div
-          whileHover={{ scale: 1.03 }}
-          className="flex items-center gap-3 cursor-pointer"
-          onClick={() => navigate("/")}
-        >
-          <img src={logo} alt="logo" className="w-10 h-10 object-contain" />
-          <span className="text-[#EDEDCE] text-sm font-semibold leading-tight">
-            Svabhiman Siksha <br />
-            Sanskriti Samaajotthaan
-          </span>
-        </motion.div>
+       {/* LOGO */}
+{/* LOGO */}
+<motion.div
+  whileHover={{ scale: 1.05 }}
+  className="flex items-center gap-3 cursor-pointer"
+  onClick={() => navigate("/")}
+>
+  {/* Bigger Logo */}
+  <img src={logo} alt="logo" className="w-12 h-12 object-contain" />
+
+  <div className="leading-tight">
+    {/* Bigger Svabhiman */}
+    <span className="block text-[#EDEDCE] text-2xl font-extrabold tracking-wide">
+      Svabhiman
+    </span>
+
+    {/* Smaller subtitle */}
+    <span className="block text-[#B8C4CE] text-xs">
+      Siksha Sanskriti Samaajotthaan
+    </span>
+  </div>
+</motion.div>
 
         {/* DESKTOP MENU */}
         <div className="hidden md:flex items-center gap-6">
@@ -76,7 +87,7 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink to="/about">About</NavLink>
-          <NavLink to="/sangathan">संगठन</NavLink>
+          <NavLink to="/sangathan">Sangathan</NavLink>
           <NavLink to="/contact">Contact</NavLink>
 
           {!user && (
@@ -156,7 +167,7 @@ const Navbar = () => {
               <NavLink to="/">Home</NavLink>
               <NavLink to="/Posts">Posts</NavLink>
               <NavLink to="/about">About</NavLink>
-              <NavLink to="/sangathan">संगठन</NavLink> {/* ✅ FIXED */}
+              <NavLink to="/sangathan">Sangathan</NavLink> {/* ✅ FIXED */}
               <NavLink to="/contact">Contact</NavLink>
 
               {!user && (
