@@ -66,12 +66,12 @@ const Navbar = () => {
   <div className="leading-tight">
     {/* Bigger Svabhiman */}
     <span className="block text-[#EDEDCE] text-2xl font-extrabold tracking-wide">
-      Svabhiman
+      Swabhiman
     </span>
 
     {/* Smaller subtitle */}
     <span className="block text-[#B8C4CE] text-xs">
-      Siksha Sanskriti Samaajotthaan
+      Shiksha Sanskriti Samajothan
     </span>
   </div>
 </motion.div>
