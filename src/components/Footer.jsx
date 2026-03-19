@@ -53,7 +53,7 @@ const Footer = () => {
         animate={{ opacity: 1 }}
         className="border-t border-white/20 text-center text-xs py-4 text-gray-200"
       >
-        © {new Date().getFullYear()} Swabhiman shiksha sanskriti samajothan • Built with{" "}
+        © 2025 Swabhiman shiksha sanskriti samajothan • Built with{" "}
         <Heart size={12} className="inline text-red-400" /> for society
       </motion.div>
     </footer>
