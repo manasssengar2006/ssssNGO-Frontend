@@ -20,11 +20,11 @@ const Contact = () => {
         >
           <div>
             <h3 className="text-xl font-semibold text-[#0C2C55]">
-              Address
+              
             </h3>
             <p className="text-[#296374]">
-              Svabhiman Siksha Sanskriti Samaajotthaan <br />
-              (Add full address here)
+              Swabhiman Shiksha Sanskriti Samajothan <br />
+              
             </p>
           </div>
 

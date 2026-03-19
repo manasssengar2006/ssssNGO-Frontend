@@ -9,7 +9,7 @@ const Footer = () => {
         {/* NGO INFO */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <h2 className="text-lg font-semibold">
-            Swabhiman Siksha Sanskriti Samajothan
+            Swabhiman Shiksha Sanskriti Samajothan
           </h2>
           <p className="text-sm mt-2 text-gray-200">
             शिक्षा • संस्कृति • समाज सेवा

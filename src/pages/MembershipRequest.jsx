@@ -17,7 +17,13 @@ const MembershipRequest = () => {
     phone: "",
     email: "",
     siblings: "",
-  membershipType: "",
+    membershipType: "",
+
+    // NEW
+    maritalStatus: "",
+    wifeName: "",
+    children: "",
+    childrenNames: "",
   });
 
   const [files, setFiles] = useState({
@@ -38,8 +44,27 @@ const MembershipRequest = () => {
     e.preventDefault();
 
     const data = new FormData();
-    Object.keys(form).forEach((key) => data.append(key, form[key]));
-    Object.keys(files).forEach((key) => data.append(key, files[key]));
+
+    // Clean conditional fields
+    const cleanedForm = { ...form };
+
+    if (cleanedForm.maritalStatus !== "married") {
+      delete cleanedForm.wifeName;
+      delete cleanedForm.children;
+      delete cleanedForm.childrenNames;
+    }
+
+    if (cleanedForm.children !== "yes") {
+      delete cleanedForm.childrenNames;
+    }
+
+    Object.keys(cleanedForm).forEach((key) =>
+      data.append(key, cleanedForm[key])
+    );
+
+    Object.keys(files).forEach((key) =>
+      data.append(key, files[key])
+    );
 
     try {
       await API.post("/membership/request", data);
@@ -55,44 +80,64 @@ const MembershipRequest = () => {
         NGO Membership Form
       </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 shadow rounded">
-
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 bg-white p-6 shadow rounded"
+      >
         <input name="name" placeholder="Full Name" onChange={handleChange} required className="w-full p-2 border" />
-
         <input name="fatherName" placeholder="Father's Name" onChange={handleChange} required className="w-full p-2 border" />
-
         <input name="motherName" placeholder="Mother's Name" onChange={handleChange} required className="w-full p-2 border" />
 
         <input name="phone" placeholder="Phone Number" onChange={handleChange} required className="w-full p-2 border" />
-
         <input name="email" type="email" placeholder="Email" onChange={handleChange} required className="w-full p-2 border" />
 
         <input name="aadhaarNumber" placeholder="Aadhaar Number" onChange={handleChange} required className="w-full p-2 border" />
-
         <input name="panNumber" placeholder="PAN Card Number" onChange={handleChange} required className="w-full p-2 border" />
-        <input
-  name="siblings"
-  type="number"
-  placeholder="Number of Siblings"
-  onChange={handleChange}
-  className="w-full p-2 border"
-/>
 
-{/* NEW FIELD – Membership Type */}
-<select
-  name="membershipType"
-  onChange={handleChange}
-  required
-  className="w-full p-2 border"
->
-  <option value="">Select Membership Type</option>
-  <option value="yearly">
-    Yearly Membership – ₹100
-  </option>
-  <option value="lifetime">
-    Lifetime Membership – ₹1000
-  </option>
-</select>
+        <input name="siblings" type="number" placeholder="Number of Siblings" onChange={handleChange} className="w-full p-2 border" />
+
+        {/* Membership */}
+        <select name="membershipType" onChange={handleChange} required className="w-full p-2 border">
+          <option value="">Select Membership Type</option>
+          <option value="yearly">Yearly Membership – ₹100</option>
+          <option value="lifetime">Lifetime Membership – ₹1000</option>
+        </select>
+
+        {/* Marital Status */}
+        <select name="maritalStatus" onChange={handleChange} className="w-full p-2 border">
+          <option value="">Marital Status</option>
+          <option value="single">Single</option>
+          <option value="married">Married</option>
+        </select>
+
+        {/* Conditional Section */}
+        {form.maritalStatus === "married" && (
+          <>
+            <input
+              name="wifeName"
+              placeholder="Wife Name"
+              onChange={handleChange}
+              required
+              className="w-full p-2 border"
+            />
+
+            <select name="children" onChange={handleChange} className="w-full p-2 border">
+              <option value="">Do you have children?</option>
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+
+            {form.children === "yes" && (
+              <textarea
+                name="childrenNames"
+                placeholder="Enter Children Names (comma separated)"
+                onChange={handleChange}
+                required
+                className="w-full p-2 border"
+              />
+            )}
+          </>
+        )}
 
         <select name="annualIncome" onChange={handleChange} className="w-full p-2 border">
           <option value="">Annual Income</option>
@@ -111,11 +156,9 @@ const MembershipRequest = () => {
         </select>
 
         <input name="fatherOccupation" placeholder="Father Occupation" onChange={handleChange} className="w-full p-2 border" />
-
         <input name="motherOccupation" placeholder="Mother Occupation" onChange={handleChange} className="w-full p-2 border" />
 
         <textarea name="aadhaarAddress" placeholder="Address as per Aadhaar" onChange={handleChange} className="w-full p-2 border" />
-
         <textarea name="currentAddress" placeholder="Current Address" onChange={handleChange} className="w-full p-2 border" />
 
         <label>Applicant Photo</label>
