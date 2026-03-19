@@ -1,15 +1,18 @@
 import { motion } from "framer-motion";
-
+import ashokImg from "../founders/ashok.jpg";
+import vipinImg from "../founders/vipin.jpg";
 const founders = [
   {
     name: "श्री अशोक कुमार पाल",
     role: "संस्थापक अध्यक्ष",
     phone: "9717420311",
+    image: ashokImg,
   },
   {
     name: "श्री विपिन कुमार",
     role: "सचिव",
     phone: "8532942212",
+    image: vipinImg,
   },
 ];
 
@@ -58,13 +61,24 @@ const Card = ({ name, role, phone, index }) => (
   </motion.div>
 );
 
-const FounderCard = ({ name, role, phone }) => (
-  <div className="bg-gradient-to-r from-[#0C2C55] to-[#296374] text-white p-5 rounded-xl shadow-lg">
-    <h3 className="font-semibold text-lg">{name}</h3>
-    <p className="text-sm opacity-90">{role}</p>
-    <a href={`tel:${phone}`} className="text-sm mt-2 inline-block underline">
-      📞 {phone}
-    </a>
+const FounderCard = ({ name, role, phone, image }) => (
+  <div className="bg-gradient-to-r from-[#0C2C55] to-[#296374] text-white p-5 rounded-xl shadow-lg flex items-center gap-4">
+    
+    {/* Image */}
+    <img
+      src={image}
+      alt={name}
+      className="w-16 h-16 rounded-full object-cover border-2 border-white"
+    />
+
+    {/* Content */}
+    <div>
+      <h3 className="font-semibold text-lg">{name}</h3>
+      <p className="text-sm opacity-90">{role}</p>
+      <a href={`tel:${phone}`} className="text-sm mt-1 inline-block underline">
+        📞 {phone}
+      </a>
+    </div>
   </div>
 );
 
