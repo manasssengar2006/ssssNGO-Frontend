@@ -1,47 +1,103 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import ImageSlider from "../components/ImageSlider";
+import API from "../services/api";
 
-const ImageSlider = ({ images = [] }) => {
-  const [index, setIndex] = useState(0);
+const PostDetail = () => {
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
+  const [commentText, setCommentText] = useState("");
 
-  if (!images.length) return null;
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  const next = () => setIndex((i) => (i + 1) % images.length);
-  const prev = () =>
-    setIndex((i) => (i - 1 + images.length) % images.length);
+  const fetchPost = async () => {
+    const res = await API.get(`/posts/${id}`);
+    setPost(res.data);
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, [id]);
+
+  if (!post) return <p className="text-center mt-10">Loading...</p>;
+
+  const likedByMe = user && post.likes?.includes(user._id);
+
+  const handleLike = async () => {
+    if (!user) return alert("Login required");
+
+    const res = await API.post(`/posts/${id}/like`);
+    setPost((p) => ({ ...p, likes: res.data }));
+  };
+
+  const handleComment = async () => {
+    if (!user || !commentText.trim()) return;
+
+    const res = await API.post(`/posts/${id}/comment`, {
+      text: commentText,
+      userName: user.name,
+    });
+
+    setPost((p) => ({ ...p, comments: res.data }));
+    setCommentText("");
+  };
+
+  const images = post.images || [];
 
   return (
-    <div className="relative overflow-hidden rounded-xl">
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={index}
-          src={images[index]}
-          initial={{ x: 200, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -200, opacity: 0 }}
-          transition={{ duration: 0.35 }}
-          className="w-full h-[420px] object-cover"
-        />
-      </AnimatePresence>
+    <div className="max-w-4xl mx-auto py-10 px-4">
+      {/* SLIDER */}
+      <ImageSlider images={images} />
 
-      {images.length > 1 && (
-        <>
+      {/* ACTION BAR */}
+      <div className="flex justify-between items-center mt-4">
+        <div className="flex gap-4 text-lg">
           <button
-            onClick={prev}
-            className="absolute left-3 top-1/2 bg-black/40 text-white px-3 rounded-full"
+            onClick={handleLike}
+            className={likedByMe ? "text-red-500" : ""}
           >
-            ‹
+            ❤️ {post.likes.length}
           </button>
-          <button
-            onClick={next}
-            className="absolute right-3 top-1/2 bg-black/40 text-white px-3 rounded-full"
-          >
-            ›
-          </button>
-        </>
-      )}
+
+          <span>💬 {post.comments.length}</span>
+        </div>
+
+        <span className="text-gray-400 text-sm">
+          {new Date(post.createdAt).toLocaleDateString()}
+        </span>
+      </div>
+
+      {/* CAPTION */}
+      <p className="mt-4 text-lg leading-relaxed">{post.caption}</p>
+
+      {/* COMMENTS */}
+      <div className="space-y-3 mt-6">
+        {post.comments.map((c, i) => (
+          <div key={i} className="bg-white shadow rounded-lg p-3">
+            <p className="font-semibold text-sm">{c.userName}</p>
+            <p className="text-gray-600">{c.text}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* COMMENT INPUT */}
+      <div className="flex gap-2 mt-6">
+        <input
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          placeholder="Write a comment..."
+          className="flex-1 border rounded-full px-4 py-2 focus:ring-2 focus:ring-blue-400"
+        />
+
+        <button
+          onClick={handleComment}
+          className="bg-blue-500 text-white px-5 rounded-full"
+        >
+          Post
+        </button>
+      </div>
     </div>
   );
 };
 
-export default ImageSlider;
+export default PostDetail;
