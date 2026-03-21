@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Heart, Mail, Phone, MapPin } from "lucide-react";
+import { Link } from "react-router-dom"; // ✅ ADD THIS
 
 const Footer = () => {
   return (
@@ -22,11 +23,12 @@ const Footer = () => {
         {/* QUICK LINKS */}
         <div>
           <h3 className="font-semibold mb-3">Quick Links</h3>
-          <ul className="space-y-1 text-sm text-gray-200">
-            <li>Home</li>
-            <li>Posts</li>
-            <li>Join</li>
-            <li>Contact</li>
+          <ul className="space-y-2 text-sm text-gray-200">
+            <li><Link to="/" className="hover:text-white">Home</Link></li>
+            <li><Link to="/Posts" className="hover:text-white">Posts</Link></li>
+            <li><Link to="/about" className="hover:text-white">About</Link></li>
+            <li><Link to="/sangathan" className="hover:text-white">Sangathan</Link></li>
+            <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
           </ul>
         </div>
 

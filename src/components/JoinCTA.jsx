@@ -16,7 +16,7 @@ const JoinCTA = () => {
       </motion.h2>
 
       <p className="text-[#EDEDCE] max-w-2xl mx-auto mb-8 text-lg">
-        Join <b>Svabhiman Siksha Sanskriti Samaajotthaan</b> by contributing
+        Join <b>Swabhiman Shiksha Sanskriti Samajothaan</b> by contributing
         ₹100 and become an official member working for education, culture,
         and social upliftment.
       </p>

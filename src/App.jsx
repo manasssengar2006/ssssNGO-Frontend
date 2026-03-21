@@ -8,7 +8,7 @@ import PostDetail from "./pages/PostDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Posts from "./pages/Posts";
-
+import MembersDirectory from "./pages/MembersDirectory"; // ✅ ADD
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminUpload from "./pages/AdminUpload";
 import AdminEditPost from "./pages/AdminEditPost";
@@ -39,6 +39,10 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/Posts" element={<Posts />} />
         <Route path="/sangathan" element={<Sangathan />} />
+        <Route
+  path="/members"
+  element={user?.joined ? <MembersDirectory /> : <Login />}
+/>
 
 
 
