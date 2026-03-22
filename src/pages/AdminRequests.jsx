@@ -51,9 +51,19 @@ const AdminRequests = () => {
     }
   };
 
-  const FileLink = ({ file, label }) => (
+const BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const FileLink = ({ file, label }) => {
+  if (!file) return null;
+
+  const url = file.startsWith("http")
+    ? file // already cloudinary / full url
+    : `${BASE_URL}/uploads/docs/${file}`;
+
+  return (
     <a
-      href={`http://localhost:5000/uploads/docs/${file}`}
+      href={url}
       target="_blank"
       rel="noreferrer"
       className="text-blue-600 underline text-sm"
@@ -61,6 +71,7 @@ const AdminRequests = () => {
       View {label}
     </a>
   );
+};
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">

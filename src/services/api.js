@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://localehost:5000/api",
+  baseURL: "https://ssssngo-backend-edct.onrender.com/api",
 });
 
 API.interceptors.request.use((req) => {
