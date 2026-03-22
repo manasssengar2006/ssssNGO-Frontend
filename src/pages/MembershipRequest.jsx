@@ -6,24 +6,20 @@ const MembershipRequest = () => {
     name: "",
     fatherName: "",
     motherName: "",
+    phone: "",
+    email: "",
     aadhaarNumber: "",
     panNumber: "",
+    city: "",
+    state: "",
+    pincode: "",
     annualIncome: "",
     incomeSource: "",
     fatherOccupation: "",
     motherOccupation: "",
     aadhaarAddress: "",
     currentAddress: "",
-    phone: "",
-    email: "",
     siblings: "",
-    membershipType: "",
-
-    // ✅ NEW
-    city: "",
-    state: "",
-    pincode: "",
-
     maritalStatus: "",
     wifeName: "",
     children: "",
@@ -36,6 +32,7 @@ const MembershipRequest = () => {
     pan: null,
   });
 
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleChange = (e) =>
@@ -50,6 +47,7 @@ const MembershipRequest = () => {
     const data = new FormData();
     const cleanedForm = { ...form };
 
+    // 🔥 CLEAN DATA
     if (cleanedForm.maritalStatus !== "married") {
       delete cleanedForm.wifeName;
       delete cleanedForm.children;
@@ -69,158 +67,156 @@ const MembershipRequest = () => {
     );
 
     try {
+      setLoading(true);
+      setMessage("");
+
       await API.post("/membership/request", data);
+
       setMessage("Request submitted successfully ✅");
-    } catch {
+
+      // RESET
+      setForm({
+        name: "",
+        fatherName: "",
+        motherName: "",
+        phone: "",
+        email: "",
+        aadhaarNumber: "",
+        panNumber: "",
+        city: "",
+        state: "",
+        pincode: "",
+        annualIncome: "",
+        incomeSource: "",
+        fatherOccupation: "",
+        motherOccupation: "",
+        aadhaarAddress: "",
+        currentAddress: "",
+        siblings: "",
+        maritalStatus: "",
+        wifeName: "",
+        children: "",
+        childrenNames: "",
+      });
+
+      setFiles({
+        photo: null,
+        aadhaar: null,
+        pan: null,
+      });
+
+    } catch (err) {
+      console.error(err);
       setMessage("Submission failed ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-10 px-6">
-      <h1 className="text-3xl font-bold mb-6 text-[#0C2C55] text-center">
+    <div className="max-w-4xl mx-auto py-10 px-6">
+      <h1 className="text-3xl font-bold text-[#0C2C55] text-center mb-6">
         NGO Membership Form
       </h1>
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-6 bg-white p-6 rounded-xl shadow-lg"
+        className="bg-white p-6 rounded-xl shadow-lg space-y-6"
       >
 
-        {/* 🔹 BASIC INFO */}
-        <div>
-          <h2 className="text-lg font-semibold text-[#0C2C55] mb-3 border-b pb-1">
-            Basic Information
-          </h2>
+        {/* BASIC */}
+        <Section title="Basic Information">
+          <Input name="name" placeholder="Full Name" onChange={handleChange} required />
+          <Input name="fatherName" placeholder="Father Name" onChange={handleChange} />
+          <Input name="motherName" placeholder="Mother Name" onChange={handleChange} />
+          <Input name="phone" placeholder="Phone" onChange={handleChange} required />
+          <Input name="email" placeholder="Email" onChange={handleChange} required />
+        </Section>
 
-          <div className="space-y-3">
-            <input name="name" placeholder="Full Name" onChange={handleChange} required className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-[#296374]" />
-            <input name="fatherName" placeholder="Father's Name" onChange={handleChange} required className="w-full border p-3 rounded-lg" />
-            <input name="motherName" placeholder="Mother's Name" onChange={handleChange} required className="w-full border p-3 rounded-lg" />
-            <input name="phone" placeholder="Phone Number" onChange={handleChange} required className="w-full border p-3 rounded-lg" />
-            <input name="email" type="email" placeholder="Email" onChange={handleChange} required className="w-full border p-3 rounded-lg" />
-          </div>
-        </div>
+        {/* LOCATION */}
+        <Section title="Location">
+          <Input name="city" placeholder="City" onChange={handleChange} required />
+          <Input name="state" placeholder="State" onChange={handleChange} />
+          <Input name="pincode" placeholder="Pincode" onChange={handleChange} />
+        </Section>
 
-        {/* 🔹 LOCATION */}
-        <div className="bg-gray-50 p-4 rounded-lg border">
-          <h2 className="text-lg font-semibold text-[#0C2C55] mb-3 border-b pb-1">
-            Location Details
-          </h2>
+        {/* ID */}
+        <Section title="Identity">
+          <Input name="aadhaarNumber" placeholder="Aadhaar Number" onChange={handleChange} />
+          <Input name="panNumber" placeholder="PAN Number" onChange={handleChange} />
+        </Section>
 
-          <div className="grid md:grid-cols-2 gap-3">
-            <input name="city" placeholder="City (Ghaziabad)" onChange={handleChange} required className="border p-3 rounded-lg" />
-            <input name="state" placeholder="State" onChange={handleChange} className="border p-3 rounded-lg" />
+        {/* FAMILY */}
+        <Section title="Family & Income">
+          <Input name="siblings" placeholder="Siblings" onChange={handleChange} />
 
-            {/* ✅ PINCODE FIXED */}
-            <input
-              name="pincode"
-              placeholder="Pincode (e.g. 201001)"
-              onChange={handleChange}
-              className="border p-3 rounded-lg md:col-span-2"
-            />
-          </div>
-        </div>
+          <Select name="annualIncome" onChange={handleChange}>
+            <option value="">Annual Income</option>
+            <option>Below 1 Lakh</option>
+            <option>1–3 Lakh</option>
+            <option>3–5 Lakh</option>
+            <option>Above 5 Lakh</option>
+          </Select>
 
-        {/* 🔹 DOCUMENT INFO */}
-        <div>
-          <h2 className="text-lg font-semibold text-[#0C2C55] mb-3 border-b pb-1">
-            Identity Details
-          </h2>
+          <Select name="incomeSource" onChange={handleChange}>
+            <option value="">Income Source</option>
+            <option>Job</option>
+            <option>Business</option>
+            <option>Agriculture</option>
+          </Select>
 
-          <div className="space-y-3">
-            <input name="aadhaarNumber" placeholder="Aadhaar Number" onChange={handleChange} required className="w-full border p-3 rounded-lg" />
-            <input name="panNumber" placeholder="PAN Number" onChange={handleChange} required className="w-full border p-3 rounded-lg" />
-          </div>
-        </div>
+          <Input name="fatherOccupation" placeholder="Father Occupation" onChange={handleChange} />
+          <Input name="motherOccupation" placeholder="Mother Occupation" onChange={handleChange} />
+        </Section>
 
-        {/* 🔹 FAMILY */}
-        <div>
-          <h2 className="text-lg font-semibold text-[#0C2C55] mb-3 border-b pb-1">
-            Family & Income
-          </h2>
+        {/* ADDRESS */}
+        <Section title="Address">
+          <Textarea name="aadhaarAddress" placeholder="Aadhaar Address" onChange={handleChange} />
+          <Textarea name="currentAddress" placeholder="Current Address" onChange={handleChange} />
+        </Section>
 
-          <div className="space-y-3">
-            <input name="siblings" type="number" placeholder="Number of Siblings" onChange={handleChange} className="w-full border p-3 rounded-lg" />
-
-            <select name="annualIncome" onChange={handleChange} className="w-full border p-3 rounded-lg">
-              <option value="">Annual Income</option>
-              <option>Below 1 Lakh</option>
-              <option>1 – 3 Lakh</option>
-              <option>3 – 5 Lakh</option>
-              <option>Above 5 Lakh</option>
-            </select>
-
-            <select name="incomeSource" onChange={handleChange} className="w-full border p-3 rounded-lg">
-              <option value="">Source of Income</option>
-              <option>Job</option>
-              <option>Business</option>
-              <option>Agriculture</option>
-            </select>
-
-            <input name="fatherOccupation" placeholder="Father Occupation" onChange={handleChange} className="w-full border p-3 rounded-lg" />
-            <input name="motherOccupation" placeholder="Mother Occupation" onChange={handleChange} className="w-full border p-3 rounded-lg" />
-          </div>
-        </div>
-
-        {/* 🔹 ADDRESS */}
-        <div>
-          <h2 className="text-lg font-semibold text-[#0C2C55] mb-3 border-b pb-1">
-            Address
-          </h2>
-
-          <textarea name="aadhaarAddress" placeholder="Aadhaar Address" onChange={handleChange} className="w-full border p-3 rounded-lg mb-3" />
-          <textarea name="currentAddress" placeholder="Current Address" onChange={handleChange} className="w-full border p-3 rounded-lg" />
-        </div>
-
-        {/* 🔹 MARITAL */}
-        <div>
-          <h2 className="text-lg font-semibold text-[#0C2C55] mb-3 border-b pb-1">
-            Marital Details
-          </h2>
-
-          <select name="maritalStatus" onChange={handleChange} className="w-full border p-3 rounded-lg mb-3">
-            <option value="">Marital Status</option>
+        {/* MARITAL */}
+        <Section title="Marital Status">
+          <Select name="maritalStatus" onChange={handleChange}>
+            <option value="">Select</option>
             <option value="single">Single</option>
             <option value="married">Married</option>
-          </select>
+          </Select>
 
           {form.maritalStatus === "married" && (
-            <div className="space-y-3">
-              <input name="wifeName" placeholder="Wife Name" onChange={handleChange} className="w-full border p-3 rounded-lg" />
+            <>
+              <Input name="wifeName" placeholder="Wife Name" onChange={handleChange} />
 
-              <select name="children" onChange={handleChange} className="w-full border p-3 rounded-lg">
-                <option value="">Do you have children?</option>
+              <Select name="children" onChange={handleChange}>
+                <option value="">Children?</option>
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
-              </select>
+              </Select>
 
               {form.children === "yes" && (
-                <textarea name="childrenNames" placeholder="Children Names" onChange={handleChange} className="w-full border p-3 rounded-lg" />
+                <Textarea name="childrenNames" placeholder="Children Names" onChange={handleChange} />
               )}
-            </div>
+            </>
           )}
-        </div>
+        </Section>
 
-        {/* 🔹 FILES */}
-        <div>
-          <h2 className="text-lg font-semibold text-[#0C2C55] mb-3 border-b pb-1">
-            Upload Documents
-          </h2>
+        {/* FILES */}
+        <Section title="Documents">
+          <input type="file" name="photo" onChange={handleFile} required />
+          <input type="file" name="aadhaar" onChange={handleFile} required />
+          <input type="file" name="pan" onChange={handleFile} required />
+        </Section>
 
-          <div className="space-y-3">
-            <input type="file" name="photo" onChange={handleFile} required />
-            <input type="file" name="aadhaar" onChange={handleFile} required />
-            <input type="file" name="pan" onChange={handleFile} required />
-          </div>
-        </div>
-
-        <button className="w-full bg-[#296374] hover:bg-[#1f4e5d] text-white py-3 rounded-lg font-semibold">
-          Submit Request
+        {/* BUTTON */}
+        <button
+          disabled={loading}
+          className="w-full bg-[#296374] text-white py-3 rounded-lg font-semibold flex justify-center"
+        >
+          {loading ? "Submitting..." : "Submit Request"}
         </button>
 
         {message && (
-          <p className="text-center text-sm mt-2 text-green-600">
+          <p className="text-center text-sm text-green-600">
             {message}
           </p>
         )}
@@ -228,5 +224,37 @@ const MembershipRequest = () => {
     </div>
   );
 };
+
+/* 🔥 SMALL COMPONENTS */
+
+const Section = ({ title, children }) => (
+  <div>
+    <h2 className="font-semibold text-[#0C2C55] mb-2">{title}</h2>
+    <div className="space-y-3">{children}</div>
+  </div>
+);
+
+const Input = (props) => (
+  <input
+    {...props}
+    className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-[#296374]"
+  />
+);
+
+const Select = (props) => (
+  <select
+    {...props}
+    className="w-full border p-3 rounded-lg"
+  >
+    {props.children}
+  </select>
+);
+
+const Textarea = (props) => (
+  <textarea
+    {...props}
+    className="w-full border p-3 rounded-lg"
+  />
+);
 
 export default MembershipRequest;
