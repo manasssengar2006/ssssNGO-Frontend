@@ -28,7 +28,7 @@ const AdminDashboard = () => {
             Members
           </h2>
           <p className="text-[#296374]">
-            View all approved NGO members
+            View all approved  members
           </p>
         </Link>
 
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
             Analytics
           </h2>
           <p className="text-[#296374]">
-            View NGO statistics
+            View statistics
           </p>
         </Link>
       </div>
