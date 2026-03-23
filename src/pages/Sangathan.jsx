@@ -1,6 +1,30 @@
 import { motion } from "framer-motion";
+
+// Founder images (keep as imports)
 import ashokImg from "../founders/ashok.jpg";
 import vipinImg from "../founders/vipin.jpg";
+import maheshImg from "../members/mahesh.jpg";
+import lataImg from "../members/lata.jpg";
+import tejpalImg from "../members/tejpal.jpg";
+import bhagmalImg from "../members/bhagmal.jpg";
+import janakImg from "../members/janak.jpg";
+import manojImg from "../members/manoj.jpg";
+import sureshImg from "../members/suresh.jpg";
+import jdpalImg from "../members/jdpal.jpg";
+import lalitImg from "../members/lalit.jpg";
+import yogeshAgraImg from "../members/yogesh-agra.jpg";
+import satendraImg from "../members/satendra.jpg";
+import yogeshMznImg from "../members/yogesh-muzaffarnagar.jpg";
+import shivImg from "../members/shivprasad.jpg";
+import vivekImg from "../members/vivek.jpg";
+import rajeshImg from "../members/rajesh.jpg";
+import kishanImg from "../members/kishan.jpg";
+import manjeetImg from "../members/manjeet.jpg";
+import sandeepImg from "../members/sandeep.jpg";
+import ashokRajImg from "../members/ashok-rajasthan.jpg";
+import sureshRajImg from "../members/suresh-rajasthan.jpg";
+import tejSinghImg from "../members/tej-singh.jpg";
+import abhayImg from "../members/abhaysingh.jpg";
 const founders = [
   {
     name: "श्री अशोक कुमार पाल",
@@ -16,62 +40,72 @@ const founders = [
   },
 ];
 
+// Members with image paths (NO IMPORTS)
 const members = [
-  { name: "श्री महेश चंद पाल", role: " कोषाध्यक्ष दिल्ली एनसीआर", phone: "9999903344" },
-  { name: "श्रीमती लता पाल", role: "अध्यक्ष महिला प्रकोष्ठ दिल्ली एनसीआर", phone: "8128934394" },
-  { name: "श्री तेजपाल सिंह", role: "संरक्षक", phone: "9213070641" },
-  { name: "श्री भागमल पाली", role: "सहसचिव", phone: "9212220176" },
-  { name: "श्री जनक पाल", role: "संरक्षक सलाहकार", phone: "9717028628" },
-  { name: "श्री मनोज बघेल", role: "सचिव", phone: "9999913422" },
-  { name: "श्री सुरेश कुमार पाल", role: "उपाध्यक्ष", phone: "9354008031" },
-  { name: "श्री जे. डी. पाल", role: "संरक्षक", phone: "9310969775" },
-  { name: "श्री ललित कुमार", role: "सदस्य", phone: "9811098062" },
-  { name: "श्री योगेश कुमार", role: "संयोजक आगरा जिला", phone: "9927164646" },
-  { name: "श्री सतेंद्र डागर", role: "संयोजक जिला मेरठ", phone: "9760774719" },
-  { name: "श्री योगेश कुमार पाल", role: "संयोजक जिला मुजफ्फरनगर", phone: "9760239838" },
-  { name: "श्री शिव प्रसाद", role: "संयोजक जिला मिर्जापुर, यू.पी", phone: "8655639685" },
-  { name: "श्री विवेक कुमार", role: "संयोजक लखनऊ", phone: "9307440269" },
-  { name: "श्री राजेश पाल", role: "सदस्य", phone: "8707813459" },
-  { name: "श्री किशन कुमार", role: "सदस्य", phone: "9616795555" },
-  { name: "श्री मंजीत सिंह वर्मा", role: "संयोजक उत्तराखंड", phone: "8279548484" },
-  { name: "श्री संदीप कुमार", role: "संयोजक जिला देहरादून", phone: "7895544350" },
-  { name: "श्री अशोक बगवास", role: "संयोजक जिला प्रतापगढ़, राजस्थान", phone: "8696831631" },
-  { name: "श्री सुरेश चंद रियार", role: "संयोजक भरतपुर, राजस्थान", phone: "9694529215" },
-  { name: "श्री तेज सिंह", role: "संयोजक जिला लहार, मध्य प्रदेश", phone: "8319252071" },
-  { name: "श्री अभय सिंह", role: "संयोजक बिहार प्रदेश", phone: "7739602108 / 7717782045" },
+  { name: "श्री महेश चंद पाल", role: "कोषाध्यक्ष दिल्ली एनसीआर", phone: "9999903344", image: maheshImg },
+  { name: "श्रीमती लता पाल", role: "अध्यक्ष महिला प्रकोष्ठ दिल्ली एनसीआर", phone: "8128934394", image: lataImg },
+  { name: "श्री तेजपाल सिंह", role: "संरक्षक", phone: "9213070641", image: tejpalImg },
+  { name: "श्री भागमल पाली", role: "सहसचिव", phone: "9212220176", image: bhagmalImg },
+  { name: "श्री जनक पाल", role: "संरक्षक सलाहकार", phone: "9717028628", image: janakImg },
+  { name: "श्री मनोज बघेल", role: "सचिव", phone: "9999913422", image: manojImg },
+  { name: "श्री सुरेश कुमार पाल", role: "उपाध्यक्ष", phone: "9354008031", image: sureshImg },
+  { name: "श्री जे. डी. पाल", role: "संरक्षक", phone: "9310969775", image: jdpalImg },
+  { name: "श्री ललित कुमार", role: "सदस्य", phone: "9811098062", image: lalitImg },
+  { name: "श्री योगेश कुमार", role: "संयोजक आगरा जिला", phone: "9927164646", image: yogeshAgraImg },
+  { name: "श्री सतेंद्र डागर", role: "संयोजक जिला मेरठ", phone: "9760774719", image: satendraImg },
+  { name: "श्री योगेश कुमार पाल", role: "संयोजक जिला मुजफ्फरनगर", phone: "9760239838", image: yogeshMznImg },
+  { name: "श्री शिव प्रसाद", role: "संयोजक जिला मिर्जापुर, यू.पी", phone: "8655639685", image: shivImg },
+  { name: "श्री विवेक कुमार", role: "संयोजक लखनऊ", phone: "9307440269", image: vivekImg },
+  { name: "श्री राजेश पाल", role: "सदस्य", phone: "8707813459", image: rajeshImg },
+  { name: "श्री किशन कुमार", role: "सदस्य", phone: "9616795555", image: kishanImg },
+  { name: "श्री मंजीत सिंह वर्मा", role: "संयोजक उत्तराखंड", phone: "8279548484", image: manjeetImg },
+  { name: "श्री संदीप कुमार", role: "संयोजक जिला देहरादून", phone: "7895544350", image: sandeepImg },
+  { name: "श्री अशोक बगवास", role: "संयोजक जिला प्रतापगढ़, राजस्थान", phone: "8696831631", image: ashokRajImg },
+  { name: "श्री सुरेश चंद रियार", role: "संयोजक भरतपुर, राजस्थान", phone: "9694529215", image: sureshRajImg },
+  { name: "श्री तेज सिंह", role: "संयोजक जिला लहार, मध्य प्रदेश", phone: "8319252071", image: tejSinghImg },
+  { name: "श्री अभय सिंह", role: "संयोजक बिहार प्रदेश", phone: "7739602108 / 7717782045", image: abhayImg },
 ];
 
-const Card = ({ name, role, phone, index }) => (
+// Member Card
+const Card = ({ name, role, phone, image, index }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: index * 0.04 }}
     whileHover={{ y: -4 }}
-    className="bg-white rounded-xl shadow-md p-5 border-l-4 border-[#296374] hover:shadow-lg transition"
+    className="bg-white rounded-xl shadow-md p-5 border-l-4 border-[#296374] hover:shadow-lg transition flex items-center gap-4"
   >
-    <h3 className="font-semibold text-[#0C2C55]">{name}</h3>
-    <p className="text-sm text-[#296374] mb-2">{role}</p>
+    {/* Image */}
+    <img
+      src={image || "/members/default.jpg"}
+      alt={name}
+      className="w-14 h-14 rounded-full object-cover border-2 border-[#296374]"
+    />
 
-    <a
-      href={`tel:${phone.split("/")[0].trim()}`}
-      className="text-sm text-green-600 font-medium hover:underline"
-    >
-      📞 {phone}
-    </a>
+    {/* Content */}
+    <div>
+      <h3 className="font-semibold text-[#0C2C55]">{name}</h3>
+      <p className="text-sm text-[#296374] mb-1">{role}</p>
+
+      <a
+        href={`tel:${phone.split("/")[0].trim()}`}
+        className="text-sm text-green-600 font-medium hover:underline"
+      >
+        📞 {phone}
+      </a>
+    </div>
   </motion.div>
 );
 
+// Founder Card
 const FounderCard = ({ name, role, phone, image }) => (
   <div className="bg-gradient-to-r from-[#0C2C55] to-[#296374] text-white p-5 rounded-xl shadow-lg flex items-center gap-4">
-    
-    {/* Image */}
     <img
       src={image}
       alt={name}
       className="w-16 h-16 rounded-full object-cover border-2 border-white"
     />
 
-    {/* Content */}
     <div>
       <h3 className="font-semibold text-lg">{name}</h3>
       <p className="text-sm opacity-90">{role}</p>
@@ -82,6 +116,7 @@ const FounderCard = ({ name, role, phone, image }) => (
   </div>
 );
 
+// Main Component
 const Sangathan = () => {
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
@@ -104,6 +139,7 @@ const Sangathan = () => {
         न्यास के प्रमुख कार्यकर्ता
       </h2>
 
+      {/* Members */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {members.map((m, i) => (
           <Card key={i} {...m} index={i} />
