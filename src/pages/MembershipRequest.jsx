@@ -71,7 +71,13 @@ const MembershipRequest = () => {
       setLoading(true);
       setMessage("");
 
-      await API.post("/membership/request", data);
+      const token = localStorage.getItem("token");
+
+await API.post("/membership/request", data, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
       setMessage("Request submitted successfully ✅");
 
