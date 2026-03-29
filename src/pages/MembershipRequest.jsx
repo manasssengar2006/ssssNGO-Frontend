@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import { Country, State, City } from "country-state-city";
 
 const MembershipRequest = () => {
   const [form, setForm] = useState({
@@ -10,8 +11,9 @@ const MembershipRequest = () => {
     email: "",
     aadhaarNumber: "",
     panNumber: "",
-    city: "",
+    country: "",
     state: "",
+    city: "",
     pincode: "",
     annualIncome: "",
     incomeSource: "",
@@ -47,7 +49,6 @@ const MembershipRequest = () => {
     const data = new FormData();
     const cleanedForm = { ...form };
 
-    // 🔥 CLEAN DATA
     if (cleanedForm.maritalStatus !== "married") {
       delete cleanedForm.wifeName;
       delete cleanedForm.children;
@@ -74,39 +75,7 @@ const MembershipRequest = () => {
 
       setMessage("Request submitted successfully ✅");
 
-      // RESET
-      setForm({
-        name: "",
-        fatherName: "",
-        motherName: "",
-        phone: "",
-        email: "",
-        aadhaarNumber: "",
-        panNumber: "",
-        city: "",
-        state: "",
-        pincode: "",
-        annualIncome: "",
-        incomeSource: "",
-        fatherOccupation: "",
-        motherOccupation: "",
-        aadhaarAddress: "",
-        currentAddress: "",
-        siblings: "",
-        maritalStatus: "",
-        wifeName: "",
-        children: "",
-        childrenNames: "",
-      });
-
-      setFiles({
-        photo: null,
-        aadhaar: null,
-        pan: null,
-      });
-
     } catch (err) {
-      console.error(err);
       setMessage("Submission failed ❌");
     } finally {
       setLoading(false);
@@ -114,14 +83,15 @@ const MembershipRequest = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-6">
-      <h1 className="text-3xl font-bold text-[#0C2C55] text-center mb-6">
+    <div className="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      
+      <h1 className="text-2xl sm:text-3xl font-bold text-[#0C2C55] text-center mb-6">
         NGO Membership Form
       </h1>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-xl shadow-lg space-y-6"
+        className="bg-white p-4 sm:p-6 rounded-xl shadow-lg space-y-6"
       >
 
         {/* BASIC */}
@@ -135,8 +105,52 @@ const MembershipRequest = () => {
 
         {/* LOCATION */}
         <Section title="Location">
-          <Input name="city" placeholder="City" onChange={handleChange} required />
-          <Input name="state" placeholder="State" onChange={handleChange} />
+
+          <Select
+            name="country"
+            value={form.country}
+            onChange={(e) =>
+              setForm({ ...form, country: e.target.value, state: "", city: "" })
+            }
+          >
+            <option value="">Select Country</option>
+            {Country.getAllCountries().map((c) => (
+              <option key={c.isoCode} value={c.isoCode}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+
+          <Select
+            name="state"
+            value={form.state}
+            onChange={(e) =>
+              setForm({ ...form, state: e.target.value, city: "" })
+            }
+            disabled={!form.country}
+          >
+            <option value="">Select State</option>
+            {State.getStatesOfCountry(form.country).map((s) => (
+              <option key={s.isoCode} value={s.isoCode}>
+                {s.name}
+              </option>
+            ))}
+          </Select>
+
+          <Select
+            name="city"
+            value={form.city}
+            onChange={handleChange}
+            disabled={!form.state}
+          >
+            <option value="">Select City</option>
+            {City.getCitiesOfState(form.country, form.state).map((c) => (
+              <option key={c.name} value={c.name}>
+                {c.name}
+              </option>
+            ))}
+          </Select>
+
           <Input name="pincode" placeholder="Pincode" onChange={handleChange} />
         </Section>
 
@@ -202,15 +216,15 @@ const MembershipRequest = () => {
 
         {/* FILES */}
         <Section title="Documents">
-          <input type="file" name="photo" onChange={handleFile} required />
-          <input type="file" name="aadhaar" onChange={handleFile} required />
-          <input type="file" name="pan" onChange={handleFile} required />
+          <input type="file" name="photo" onChange={handleFile} required className="w-full border p-2 rounded" />
+          <input type="file" name="aadhaar" onChange={handleFile} required className="w-full border p-2 rounded" />
+          <input type="file" name="pan" onChange={handleFile} required className="w-full border p-2 rounded" />
         </Section>
 
         {/* BUTTON */}
         <button
           disabled={loading}
-          className="w-full bg-[#296374] text-white py-3 rounded-lg font-semibold flex justify-center"
+          className="w-full bg-[#296374] text-white py-3 rounded-lg font-semibold"
         >
           {loading ? "Submitting..." : "Submit Request"}
         </button>
@@ -225,12 +239,15 @@ const MembershipRequest = () => {
   );
 };
 
-/* 🔥 SMALL COMPONENTS */
+
+/* COMPONENTS */
 
 const Section = ({ title, children }) => (
   <div>
     <h2 className="font-semibold text-[#0C2C55] mb-2">{title}</h2>
-    <div className="space-y-3">{children}</div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {children}
+    </div>
   </div>
 );
 
@@ -253,7 +270,7 @@ const Select = (props) => (
 const Textarea = (props) => (
   <textarea
     {...props}
-    className="w-full border p-3 rounded-lg"
+    className="w-full border p-3 rounded-lg sm:col-span-2"
   />
 );
 
