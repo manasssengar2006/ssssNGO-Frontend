@@ -92,7 +92,7 @@ await API.post("/membership/request", data, {
     <div className="max-w-5xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
       
       <h1 className="text-2xl sm:text-3xl font-bold text-[#0C2C55] text-center mb-6">
-        NGO Membership Form
+      Membership Form
       </h1>
 
       <form
