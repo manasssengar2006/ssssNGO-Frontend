@@ -26,6 +26,7 @@ const MembershipRequest = () => {
     wifeName: "",
     children: "",
     childrenNames: "",
+    membershipType: "", // ✅ added
   });
 
   const [files, setFiles] = useState({
@@ -67,17 +68,23 @@ const MembershipRequest = () => {
       data.append(key, files[key])
     );
 
+    // ✅ added amount logic
+    let amount = 0;
+    if (form.membershipType === "yearly") amount = 100;
+    if (form.membershipType === "permanent") amount = 1000;
+    data.append("amount", amount);
+
     try {
       setLoading(true);
       setMessage("");
 
       const token = localStorage.getItem("token");
 
-await API.post("/membership/request", data, {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
+      await API.post("/membership/request", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setMessage("Request submitted successfully ✅");
 
@@ -107,6 +114,15 @@ await API.post("/membership/request", data, {
           <Input name="motherName" placeholder="Mother Name" onChange={handleChange} />
           <Input name="phone" placeholder="Phone" onChange={handleChange} required />
           <Input name="email" placeholder="Email" onChange={handleChange} required />
+        </Section>
+
+        {/* ✅ MEMBERSHIP ADDED */}
+        <Section title="Membership Type">
+          <Select name="membershipType" onChange={handleChange} required>
+            <option value="">Select Membership</option>
+            <option value="yearly">Yearly - ₹100</option>
+            <option value="permanent">Permanent - ₹1000</option>
+          </Select>
         </Section>
 
         {/* LOCATION */}
