@@ -187,7 +187,7 @@ const Navbar = () => {
                       }}
                       className="text-left bg-[#0C2C55] text-[#EDEDCE] px-4 py-2 rounded"
                     >
-                      Join NGO
+                      Join
                     </button>
                   )}
 
