@@ -16,7 +16,7 @@ import AdminAnalytics from "./pages/AdminAnalytics";
 import AdminMembers from "./pages/AdminMembers";
 import AdminRequests from "./pages/AdminRequests";
 import Sangathan from "./pages/Sangathan";
-
+import AdminPostList from "./pages/AdminPostList";
 import MembershipRequest from "./pages/MembershipRequest";
 import MainLayout from "./layouts/MainLayout";
 
