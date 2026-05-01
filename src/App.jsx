@@ -61,7 +61,7 @@ function App() {
 
 <Route
   path="/admin/posts"
-  element={user?.role === "admin" ? <AdminPostsList /> : <Login />}
+  element={user?.role === "admin" ? <AdminPostList /> : <Login />}
 />
 
 <Route
