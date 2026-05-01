@@ -53,35 +53,41 @@ function App() {
         />
 
         {/* ADMIN ROUTES */}
-        <Route
-          path="/admin"
-          element={user?.role === "admin" ? <AdminDashboard /> : <Login />}
-        />
+      {/* ADMIN ROUTES */}
+<Route
+  path="/admin"
+  element={user?.role === "admin" ? <AdminDashboard /> : <Login />}
+/>
 
-        <Route
-          path="/admin/requests"
-          element={user?.role === "admin" ? <AdminRequests /> : <Login />}
-        />
+<Route
+  path="/admin/posts"
+  element={user?.role === "admin" ? <AdminPostsList /> : <Login />}
+/>
 
-        <Route
-          path="/admin/members"
-          element={user?.role === "admin" ? <AdminMembers /> : <Login />}
-        />
+<Route
+  path="/admin/upload"
+  element={user?.role === "admin" ? <AdminUpload /> : <Login />}
+/>
 
-        <Route
-          path="/admin/upload"
-          element={user?.role === "admin" ? <AdminUpload /> : <Login />}
-        />
+<Route
+  path="/admin/edit/:id"
+  element={user?.role === "admin" ? <AdminEditPost /> : <Login />}
+/>
 
-        <Route
-          path="/admin/edit/:id"
-          element={user?.role === "admin" ? <AdminEditPost /> : <Login />}
-        />
+<Route
+  path="/admin/requests"
+  element={user?.role === "admin" ? <AdminRequests /> : <Login />}
+/>
 
-        <Route
-          path="/admin/analytics"
-          element={user?.role === "admin" ? <AdminAnalytics /> : <Login />}
-        />
+<Route
+  path="/admin/members"
+  element={user?.role === "admin" ? <AdminMembers /> : <Login />}
+/>
+
+<Route
+  path="/admin/analytics"
+  element={user?.role === "admin" ? <AdminAnalytics /> : <Login />}
+/>
       </Route>
     </Routes>
   );
