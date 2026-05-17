@@ -29,7 +29,7 @@ const AdminPostsList = () => {
             src={post.images[0]}
             className="h-40 w-full object-cover"
           />
-
+  
           <p>{post.caption}</p>
 
           <Link to={`/admin/edit/${post._id}`}>

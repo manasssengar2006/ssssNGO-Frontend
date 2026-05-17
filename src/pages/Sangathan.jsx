@@ -3,15 +3,15 @@ import { motion } from "framer-motion";
 // Founder images (keep as imports)
 import ashokImg from "../founders/ashok.jpg";
 import vipinImg from "../founders/vipin.jpg";
-import maheshImg from "../members/mahesh.jpg";
-import lataImg from "../members/lata.jpg";
-import tejpalImg from "../members/tejpal.jpg";
+
+
+
 import bhagmalImg from "../members/bhagmal.jpg";
 import janakImg from "../members/janak.jpg";
 import manojImg from "../members/manoj.jpg";
 import sureshImg from "../members/suresh.jpg";
-import jdpalImg from "../members/jdpal.jpg";
-import lalitImg from "../members/lalit.jpg";
+
+
 import yogeshAgraImg from "../members/yogesh-agra.jpg";
 import satendraImg from "../members/satendra.jpg";
 import yogeshMznImg from "../members/yogesh-muzaffarnagar.jpg";
@@ -23,7 +23,7 @@ import manjeetImg from "../members/manjeet.jpg";
 import sandeepImg from "../members/sandeep.jpg";
 import ashokRajImg from "../members/ashok-rajasthan.jpg";
 import sureshRajImg from "../members/suresh-rajasthan.jpg";
-import tejSinghImg from "../members/tej-singh.jpg";
+
 import abhayImg from "../members/abhaysingh.jpg";
 const founders = [
   {
@@ -42,15 +42,15 @@ const founders = [
 
 // Members with image paths (NO IMPORTS)
 const members = [
-  { name: "श्री महेश चंद पाल", role: "कोषाध्यक्ष दिल्ली एनसीआर", phone: "9999903344", image: maheshImg },
-  { name: "श्रीमती लता पाल", role: "अध्यक्ष महिला प्रकोष्ठ दिल्ली एनसीआर", phone: "8128934394", image: lataImg },
-  { name: "श्री तेजपाल सिंह", role: "संरक्षक", phone: "9213070641", image: tejpalImg },
+ 
+ 
+ 
   { name: "श्री भागमल पाली", role: "सहसचिव", phone: "9212220176", image: bhagmalImg },
   { name: "श्री जनक पाल", role: "संरक्षक सलाहकार", phone: "9717028628", image: janakImg },
   { name: "श्री मनोज बघेल", role: "सचिव", phone: "9999913422", image: manojImg },
-  { name: "श्री सुरेश कुमार पाल", role: "उपाध्यक्ष", phone: "9354008031", image: sureshImg },
-  { name: "श्री जे. डी. पाल", role: "संरक्षक", phone: "9310969775", image: jdpalImg },
-  { name: "श्री ललित कुमार", role: "सदस्य", phone: "9811098062", image: lalitImg },
+  
+ 
+ 
   { name: "श्री योगेश कुमार", role: "संयोजक आगरा जिला", phone: "9927164646", image: yogeshAgraImg },
   { name: "श्री सतेंद्र डागर", role: "संयोजक जिला मेरठ", phone: "9760774719", image: satendraImg },
   { name: "श्री योगेश कुमार पाल", role: "संयोजक जिला मुजफ्फरनगर", phone: "9760239838", image: yogeshMznImg },
@@ -62,7 +62,7 @@ const members = [
   { name: "श्री संदीप कुमार", role: "संयोजक जिला देहरादून", phone: "7895544350", image: sandeepImg },
   { name: "श्री अशोक बगवास", role: "संयोजक जिला प्रतापगढ़, राजस्थान", phone: "8696831631", image: ashokRajImg },
   { name: "श्री सुरेश चंद रियार", role: "संयोजक भरतपुर, राजस्थान", phone: "9694529215", image: sureshRajImg },
-  { name: "श्री तेज सिंह", role: "संयोजक जिला लहार, मध्य प्रदेश", phone: "8319252071", image: tejSinghImg },
+  
   { name: "श्री अभय सिंह", role: "संयोजक बिहार प्रदेश", phone: "7739602108 / 7717782045", image: abhayImg },
 ];
 
