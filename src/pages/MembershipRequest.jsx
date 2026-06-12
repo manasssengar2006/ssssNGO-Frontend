@@ -70,8 +70,8 @@ const MembershipRequest = () => {
 
     // ✅ added amount logic
     let amount = 0;
-    if (form.membershipType === "yearly") amount = 100;
-    if (form.membershipType === "permanent") amount = 1000;
+    if (form.membershipType === "yearly") amount = 1100;
+    if (form.membershipType === "permanent") amount = 5100;
     data.append("amount", amount);
 
     try {
