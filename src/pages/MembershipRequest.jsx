@@ -120,8 +120,8 @@ const MembershipRequest = () => {
         <Section title="Membership Type">
           <Select name="membershipType" onChange={handleChange} required>
             <option value="">Select Membership</option>
-            <option value="yearly">Yearly - ₹100</option>
-            <option value="permanent">Permanent - ₹1000</option>
+            <option value="yearly">Yearly - ₹1100</option>
+            <option value="permanent">Permanent - ₹5100</option>
           </Select>
         </Section>
 
