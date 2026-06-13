@@ -32,12 +32,12 @@ const founders = [
   },
   {
     name: "श्री विपिन कुमार",
-    role: "सचिव",
+    role: "उपाध्यक्ष",
     phone: "8532942212",
     image: vipinImg,
   },
   {
-    name: "श्री भागमल पाल",
+    name: "मा० भागमल पाली",
     role: "संरक्षक",
     phone: "9212220176",
     image: bhagmalImg,
@@ -131,7 +131,7 @@ const members = [
     image: abhayImg,
   },
  {
-  name: "श्री धर्मेंद्र कुमार",
+  name: "धर्मेंद्र कुमार (डी.के)",
   role: "संयोजक चित्रकूट, बांदा (उ.प्र.)",
   phone: "7607303817",
 },
