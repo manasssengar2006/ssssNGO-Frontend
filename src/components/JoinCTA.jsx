@@ -27,7 +27,7 @@ const JoinCTA = () => {
         onClick={() => navigate("/join")}
         className="bg-[#EDEDCE] text-[#0C2C55] px-8 py-3 rounded-full font-semibold text-lg"
       >
-        Join Now ₹100
+        Join Now ₹1100
       </motion.button>
     </div>
   );
