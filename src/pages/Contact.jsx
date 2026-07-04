@@ -23,7 +23,7 @@ const Contact = () => {
               
             </h3>
             <p className="text-[#296374]">
-              Swabhiman Shiksha Sanskriti Samajothan <br />
+              Swabhiman Shiksha Sanskriti Samajotthan Nyas <br />
               
             </p>
           </div>
