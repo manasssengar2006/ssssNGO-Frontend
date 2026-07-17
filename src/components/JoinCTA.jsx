@@ -16,8 +16,8 @@ const JoinCTA = () => {
       </motion.h2>
 
       <p className="text-[#EDEDCE] max-w-2xl mx-auto mb-8 text-lg">
-        Join <b>Swabhiman Shiksha Sanskriti Samajothaan</b> by contributing
-        ₹100 and become an official member working for education, culture,
+        Join <b>Swabhiman Shiksha Sanskriti Samajotthaan Nyas</b> by contributing
+        ₹1100 and become an official member working for education, culture,
         and social upliftment.
       </p>
 
@@ -27,7 +27,7 @@ const JoinCTA = () => {
         onClick={() => navigate("/join")}
         className="bg-[#EDEDCE] text-[#0C2C55] px-8 py-3 rounded-full font-semibold text-lg"
       >
-        Join Now ₹100
+        Join Now ₹1100
       </motion.button>
     </div>
   );

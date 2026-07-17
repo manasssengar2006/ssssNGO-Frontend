@@ -71,7 +71,7 @@ const Navbar = () => {
 
     {/* Smaller subtitle */}
     <span className="block text-[#B8C4CE] text-xs">
-      Shiksha Sanskriti Samajothan
+      Shiksha Sanskriti Samajotthan Nyas
     </span>
   </div>
 </motion.div>
