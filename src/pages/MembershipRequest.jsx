@@ -1,6 +1,7 @@
-import { useState } from "react";
+
 import API from "../services/api";
 import { Country, State, City } from "country-state-city";
+import { useState, useEffect } from "react";
 
 const MembershipRequest = () => {
   const [form, setForm] = useState({
@@ -34,15 +35,30 @@ const MembershipRequest = () => {
     aadhaar: null,
     pan: null,
   });
-
+const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleFile = (e) =>
-    setFiles({ ...files, [e.target.name]: e.target.files[0] });
+const handleFile = (e) => {
+  const { name, files: selectedFiles } = e.target;
+
+  setFiles({
+    ...files,
+    [name]: selectedFiles[0],
+  });
+
+  if (name === "photo" && selectedFiles[0]) {
+    setPreview(URL.createObjectURL(selectedFiles[0]));
+  }
+};
+useEffect(() => {
+  return () => {
+    if (preview) URL.revokeObjectURL(preview);
+  };
+}, [preview]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -237,11 +253,71 @@ const MembershipRequest = () => {
         </Section>
 
         {/* FILES */}
-        <Section title="Documents">
-          <input type="file" name="photo" onChange={handleFile} required className="w-full border p-2 rounded" />
-          <input type="file" name="aadhaar" onChange={handleFile} required className="w-full border p-2 rounded" />
-          <input type="file" name="pan" onChange={handleFile} required className="w-full border p-2 rounded" />
-        </Section>
+       {/* FILES */}
+<Section title="Documents">
+
+  {/* Photo Upload */}
+  <div className="sm:col-span-2 flex flex-col items-center border rounded-lg p-5 bg-gray-50">
+
+    <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-[#296374] bg-gray-200 flex items-center justify-center mb-4">
+
+      {preview ? (
+        <img
+          src={preview}
+          alt="Preview"
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <span className="text-gray-500 text-sm text-center px-2">
+          Passport Size Photo
+        </span>
+      )}
+
+    </div>
+
+    <input
+      type="file"
+      name="photo"
+      accept="image/*"
+      onChange={handleFile}
+      required
+      className="w-full border p-2 rounded"
+    />
+  </div>
+
+  {/* Aadhaar */}
+  <div>
+    <label className="block text-sm font-medium mb-2">
+      Aadhaar Card
+    </label>
+
+    <input
+      type="file"
+      name="aadhaar"
+      accept=".jpg,.jpeg,.png,.pdf"
+      onChange={handleFile}
+      required
+      className="w-full border p-2 rounded"
+    />
+  </div>
+
+  {/* PAN */}
+  <div>
+    <label className="block text-sm font-medium mb-2">
+      PAN Card
+    </label>
+
+    <input
+      type="file"
+      name="pan"
+      accept=".jpg,.jpeg,.png,.pdf"
+      onChange={handleFile}
+      required
+      className="w-full border p-2 rounded"
+    />
+  </div>
+
+</Section>
 
         {/* BUTTON */}
         <button
